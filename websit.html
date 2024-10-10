@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>/me Command Detector</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin-bottom: 20px;
+        }
+        .command-container {
+            background-color: #e2e2e2;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .command-container:hover {
+            background-color: #d0d0d0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>/me Command Detector</h1>
+    <textarea id="inputText" placeholder="Paste your text here..."></textarea>
+    <button onclick="detectMeCommands()">Detect /me Commands</button>
+    
+    <div id="commandList"></div>
+
+    <script>
+        function detectMeCommands() {
+            const inputText = document.getElementById('inputText').value;
+            const commandList = document.getElementById('commandList');
+            commandList.innerHTML = ''; // Clear previous results
+
+            const lines = inputText.split('\n');
+            const meCommands = lines.filter(line => line.trim().startsWith('/me'));
+
+            if (meCommands.length > 0) {
+                meCommands.forEach(command => {
+                    const commandContainer = document.createElement('div');
+                    commandContainer.classList.add('command-container');
+                    commandContainer.textContent = command;
+                    
+                    commandContainer.onclick = () => copyToClipboard(command);
+                    
+                    commandList.appendChild(commandContainer);
+                });
+            } else {
+                commandList.innerHTML = '<p>No /me commands found.</p>';
+            }
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert(`Copied: ${text}`);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>
