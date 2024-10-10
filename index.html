@@ -3,86 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>/me Command Detector</title>
+    <title>Auto Copy /me Command</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            padding: 20px;
+            margin: 20px;
         }
         textarea {
             width: 100%;
-            height: 150px;
+            height: 100px;
             margin-bottom: 20px;
+            font-size: 16px;
         }
-        .command-container {
-            display: flex;
-            align-items: center;
-            background-color: #e2e2e2;
+        button {
             padding: 10px;
-            margin-bottom: 5px;
-            border-radius: 5px;
-        }
-        .copy-btn {
-            background-color: #007bff;
+            background-color: #007BFF;
             color: white;
             border: none;
-            padding: 5px 10px;
             cursor: pointer;
-            border-radius: 5px;
-            margin-left: 10px;
-        }
-        .copy-btn:hover {
-            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
 
-    <h1>/me Command Detector</h1>
-    <textarea id="inputText" placeholder="Paste your text here..."></textarea>
-    <button onclick="detectMeCommands()">Detect /me Commands</button>
-    
-    <div id="commandList"></div>
+    <h1>Doctor Roleplay: /me Command</h1>
+
+    <textarea id="meCommand" readonly>
+/me carefully examines the burn for signs of severity and infection, assessing the patient's pain level.
+    </textarea>
+
+    <button onclick="copyMeCommand()">Copy /me Command</button>
+
+    <textarea id="copyBox" readonly></textarea>
 
     <script>
-        function detectMeCommands() {
-            const inputText = document.getElementById('inputText').value;
-            const commandList = document.getElementById('commandList');
-            commandList.innerHTML = ''; // Clear previous results
+        function copyMeCommand() {
+            // Get the /me command from the first textarea
+            var meCommand = document.getElementById("meCommand").value;
+            
+            // Set the /me command in the copyBox
+            var copyBox = document.getElementById("copyBox");
+            copyBox.value = meCommand;
 
-            const lines = inputText.split('\n');
-            const meCommands = lines.filter(line => line.trim().startsWith('/me'));
+            // Select the content of copyBox
+            copyBox.select();
+            copyBox.setSelectionRange(0, 99999); // For mobile devices
 
-            if (meCommands.length > 0) {
-                meCommands.forEach(command => {
-                    const commandContainer = document.createElement('div');
-                    commandContainer.classList.add('command-container');
+            // Copy the selected text
+            document.execCommand("copy");
 
-                    const commandText = document.createElement('span');
-                    commandText.textContent = command;
-
-                    const copyButton = document.createElement('button');
-                    copyButton.textContent = 'Copy';
-                    copyButton.classList.add('copy-btn');
-                    copyButton.onclick = () => copyToClipboard(command);
-
-                    commandContainer.appendChild(commandText);
-                    commandContainer.appendChild(copyButton);
-                    commandList.appendChild(commandContainer);
-                });
-            } else {
-                commandList.innerHTML = '<p>No /me commands found.</p>';
-            }
-        }
-
-        function copyToClipboard(text) {
-            // Copy the text to the clipboard
-            navigator.clipboard.writeText(text).then(() => {
-                alert(`Copied: ${text}`);
-            }).catch(err => {
-                console.error('Failed to copy: ', err);
-            });
+            // Alert user that text has been copied
+            //alert("Copied the /me command: " + copyBox.value);
         }
     </script>
 
