@@ -16,14 +16,24 @@
             margin-bottom: 20px;
         }
         .command-container {
+            display: flex;
+            align-items: center;
             background-color: #e2e2e2;
             padding: 10px;
             margin-bottom: 5px;
             border-radius: 5px;
-            cursor: pointer;
         }
-        .command-container:hover {
-            background-color: #d0d0d0;
+        .copy-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-left: 10px;
+        }
+        .copy-btn:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
@@ -48,10 +58,17 @@
                 meCommands.forEach(command => {
                     const commandContainer = document.createElement('div');
                     commandContainer.classList.add('command-container');
-                    commandContainer.textContent = command;
-                    
-                    commandContainer.onclick = () => copyToClipboard(command);
-                    
+
+                    const commandText = document.createElement('span');
+                    commandText.textContent = command;
+
+                    const copyButton = document.createElement('button');
+                    copyButton.textContent = 'Copy';
+                    copyButton.classList.add('copy-btn');
+                    copyButton.onclick = () => copyToClipboard(command);
+
+                    commandContainer.appendChild(commandText);
+                    commandContainer.appendChild(copyButton);
                     commandList.appendChild(commandContainer);
                 });
             } else {
