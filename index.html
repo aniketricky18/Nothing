@@ -40,7 +40,8 @@
 <body>
 
     <h1>/me Command Detector</h1>
-    <textarea id="inputText" placeholder="Paste your text here..." onfocus="detectMeCommands()"></textarea>
+    <textarea id="inputText" placeholder="Paste your text here..."></textarea>
+    <button onclick="detectMeCommands()">Detect /me Commands</button>
     
     <div id="commandList"></div>
 
@@ -76,6 +77,7 @@
         }
 
         function copyToClipboard(text) {
+            // Copy the text to the clipboard
             navigator.clipboard.writeText(text).then(() => {
                 alert(`Copied: ${text}`);
             }).catch(err => {
